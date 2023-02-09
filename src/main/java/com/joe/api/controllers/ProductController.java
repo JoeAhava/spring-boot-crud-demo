@@ -3,10 +3,12 @@ package com.joe.api.controllers;
 import com.joe.api.models.Product;
 import com.joe.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RestController
@@ -42,18 +44,20 @@ public class ProductController {
     }
 //
     @PutMapping(value = "/{id}")
-    public Product updateProduct(@RequestBody Product product, @PathVariable("id") Long id){
-
-        Product update = productService.getById(id);
-        return update;
+    public Object updateProduct(@RequestBody Product product, @PathVariable("id") Long id){
+        try{
+            return productService.update(id, product);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>("Product Not found", HttpStatus.NOT_FOUND);
+        }
     }
 //
-//    @DeleteMapping(value = "/{id}")
-//    public ResponseEntity<Map<String, Product>> deleteProduct(@PathVariable String id){
-//        Product deleted = repo.get(id);
-//        repo.remove(id);
-//        Map<String, Product> res = new HashMap<>();
-//        res.put("deleted", deleted);
-//        return new ResponseEntity<>(res, HttpStatus.OK);
-//    }
+    @DeleteMapping(value = "/{id}")
+    public Object deleteProduct(@PathVariable Long id){
+        try{
+            return productService.delete(id);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>("Product Not found", HttpStatus.NOT_FOUND);
+        }
+    }
 }

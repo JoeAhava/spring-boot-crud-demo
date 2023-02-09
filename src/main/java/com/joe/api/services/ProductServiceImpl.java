@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-//import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService{
     @Autowired
@@ -28,4 +26,17 @@ public class ProductServiceImpl implements ProductService{
         return productRepo.findById(id).get();
     }
 
+    @Override
+    public Object update(Long id, Product update) {
+        Product prod = productRepo.findById(id).get();
+        prod.setName(update.getName());
+        return productRepo.save(prod);
+    }
+
+    @Override
+    public Object delete(Long id) {
+        Product deleted = productRepo.findById(id).get();
+        productRepo.deleteById(deleted.getId());
+        return deleted;
+    }
 }
