@@ -1,4 +1,4 @@
-package com.joe.api.services;
+package com.joe.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
 

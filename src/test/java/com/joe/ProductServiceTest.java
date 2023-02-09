@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @SpringBootTest
 public class ProductServiceTest {
@@ -17,7 +18,7 @@ public class ProductServiceTest {
 
     @Test
     public void getProducts(){
-        ResponseEntity<Collection<Product>> res = ps.getProducts();
-        assert res.getBody().size() == 2;
+        List<Product> res = ps.getAll();
+        assert res.size() == 2;
     }
 }
